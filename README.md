@@ -1,2 +1,3 @@
-# qq_groupchat_calendar_heatmap
-Calendar heatmap for qq groupchat, detailed intro see
+# QQ群聊日历热力图
+
+这是一个统计qq群聊每日消息数量的日历热力图，详请见
