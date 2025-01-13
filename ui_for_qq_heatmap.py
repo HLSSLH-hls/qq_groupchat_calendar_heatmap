@@ -13,9 +13,11 @@ def export_log(content):
     
     # 检验 save_path_valuesav
     if save_path_value.get():
-        
+        #print(datetime.now().strftime('%Y-%m-%d %H:%M'))    
         # 这里是导出日志到文件的代码
-        with open(f"{save_path_value.get()}/logfile-{datetime.now().strftime('%Y-%m-%d %H:%M')}.txt", "a",encoding="utf-8") as file:
+        with open(f"{save_path_value.get()}/logfile-{datetime.now().strftime('%Y-%m-%d_%H点%M')}.txt", "a",encoding="utf-8") as file:
+            #print(f"{save_path_value.get()}/logfile-{datetime.now().strftime('%Y-%m-%d_%H点%M')}.txt")
+            print("ok?",content)
             file.write(content+"\n")
 
 
@@ -109,7 +111,7 @@ def run_convert():
         test_heatmap.generateCalendarMain([int(year_value.get())],analysis_filepath,save_path_value.get(),group_name,title=title_value.get())
     except Exception as e:
         treat_log_area_insert(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} 在绘图时出错: {e}")
-        export_log(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} {analysis_result}")
+        export_log(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} 在绘图时出错: {e}")
         return
     
     treat_log_area_insert(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} 绘制完成")
@@ -177,7 +179,6 @@ log_text_area.pack(side=tk.BOTTOM, padx=10, pady=40)
 # 创建状态标签
 status_label = Label(root, text="")
 status_label.pack(side=tk.BOTTOM, padx=10, pady=10)
-
 
 
 # 启动事件循环

@@ -80,7 +80,7 @@ def create_year_calendar(day_nums, day_vals,the_plot_title,saved_path,color_map,
 
     for i, axs in enumerate(ax.flat):
 
-        axs.imshow(day_vals[i+1], cmap=color_map, vmin=1, vmax=max_value)  # heatmap
+        im = axs.imshow(day_vals[i+1], cmap=color_map, vmin=1, vmax=max_value)  # heatmap
         axs.set_title(month_names[i])
 
         # Labels
@@ -140,9 +140,15 @@ def create_year_calendar(day_nums, day_vals,the_plot_title,saved_path,color_map,
                 triangle = Polygon(patch_coords, fc='w', alpha=0.7)
                 axs.add_artist(triangle)
 
+
+        # 在最后一个子图上添加颜色条
+        if i == 11:
+            cax = fig.add_axes([0.95, 0.15, 0.01, 0.7])  # 创建一个用于颜色条的轴
+            plt.colorbar(im,cax=cax, label='消息条数')
     # Final adjustments
     fig.suptitle(the_plot_title, fontsize=16)
     plt.subplots_adjust(left=0.04, right=0.96, top=0.88, bottom=0.04)
+    
 
     # Save to file
     plt.savefig(f'{saved_path}/{the_plot_title}.pdf')
@@ -160,7 +166,7 @@ def generateCalendarMain(selected_years,acquired_filepath,saved_path,group_name,
         #颜色映射
         # 定义颜色映射的颜色段
         colors = ['#61bfb4', '#0e3560', '#2e1054']  # 
-        n_bins = [10, 6, 4]  # 每个颜色段的区间数
+        n_bins = [6, 6, 6]  # 每个颜色段的区间数
 
         # 创建自定义颜色映射
         my_cmap = LinearSegmentedColormap.from_list('custom_cmap', colors, N=sum(n_bins))
