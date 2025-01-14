@@ -8,7 +8,7 @@ import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import filedialog
 from tkinter import Tk, Label, Button, Entry, Text, Scrollbar, messagebox
-
+import os
 def export_log(content):
     
     # 检验 save_path_valuesav
@@ -19,6 +19,10 @@ def export_log(content):
             #print(f"{save_path_value.get()}/logfile-{datetime.now().strftime('%Y-%m-%d_%H点%M')}.txt")
             print("ok?",content)
             file.write(content+"\n")
+
+def close_window():
+    os._exit(0)
+
 
 
 def validate_variables():
@@ -129,7 +133,7 @@ def run_convert():
 
 # 创建窗口
 root = Tk()
-root.title("热力图生成器")
+root.title("QQ群聊每日频度日历热力图生成器")
 
 # 初始化变量
 title_value = tk.StringVar()
@@ -180,6 +184,7 @@ log_text_area.pack(side=tk.BOTTOM, padx=10, pady=40)
 status_label = Label(root, text="")
 status_label.pack(side=tk.BOTTOM, padx=10, pady=10)
 
-
+#关闭窗口时强制结束所有进程
+root.protocol("WM_DELETE_WINDOW", close_window)
 # 启动事件循环
 root.mainloop()

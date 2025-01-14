@@ -165,6 +165,9 @@ def generateCalendarMain(selected_years,acquired_filepath,saved_path,group_name,
 
         #颜色映射
         # 定义颜色映射的颜色段
+        #colors = ['#61bfb4', '#0e3560', '#2e1054', '#e82f0f']  # 
+        #n_bins = [6, 6, 6, 17]  # 每个颜色段的区间数
+
         colors = ['#61bfb4', '#0e3560', '#2e1054']  # 
         n_bins = [6, 6, 6]  # 每个颜色段的区间数
 
