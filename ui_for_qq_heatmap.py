@@ -15,7 +15,7 @@ def export_log(content):
     if save_path_value.get():
         #print(datetime.now().strftime('%Y-%m-%d %H:%M'))    
         # 这里是导出日志到文件的代码
-        with open(f"{save_path_value.get()}/logfile-{datetime.now().strftime('%Y-%m-%d_%H点%M')}.txt", "a",encoding="utf-8") as file:
+        with open(f"{save_path_value.get()}/logs/logfile-{datetime.now().strftime('%Y-%m-%d_%H点%M')}.txt", "a",encoding="utf-8") as file:
             #print(f"{save_path_value.get()}/logfile-{datetime.now().strftime('%Y-%m-%d_%H点%M')}.txt")
             print("ok?",content)
             file.write(content+"\n")
