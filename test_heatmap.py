@@ -212,15 +212,22 @@ def generateCalendarMain(selected_years,acquired_filepath,saved_path,group_name,
             # 获取指定年份最早的日期
             #print(df[df['日期'].dt.year == int(year.strip())]['日期'])
             earliest_date = df[df['日期'].dt.year == year]['日期'].min()
+            latest_date = df[df['日期'].dt.year == year]['日期'].max()
             #print(earliest_date)
-            if earliest_date is None:
+            if earliest_date is None or latest_date is None:
                 raise Exception("所选择的年份没有数据")
             starts_date = earliest_date.strftime('%Y年%m月%d日')
+            
+            if latest_date.month == 12 and latest_date.day == 31:
+                ends_date = "年底"
+            else:
+                ends_date = latest_date.strftime('%Y年%m月%d日')
+            
             
             day_nums, day_vals = split_months(df, year)
             
             if title == "":
-                fixed_title = f"{year}年{group_name}群每日群聊消息数量（{starts_date}至年底）"
+                fixed_title = f"{year}年{group_name}群每日群聊消息数量（{starts_date}至{ends_date})"
                 create_year_calendar(day_nums, day_vals, fixed_title, saved_path,my_cmap,month_names,days,weeks,maxvalue)
             else:
                 create_year_calendar(day_nums, day_vals, title, saved_path,my_cmap,month_names,days,weeks,maxvalue)
