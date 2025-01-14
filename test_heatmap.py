@@ -7,6 +7,7 @@ from matplotlib.backends import *
 from datetime import datetime as dtm
 import datetime
 import matplotlib as mpl
+from matplotlib.patches import Rectangle
  
  
 
@@ -45,23 +46,38 @@ def split_months(df, year):
         
         day = d["日期"].day
         month = d["日期"].month
-        col = d["日期"].dayofweek
-
+        col = d["日期"].dayofweek + 1
+        
+        
+        
+        
         #获取这个月的第一天是星期几，以判断渲染时是否放置在下一行
-        firstweekDay = datetime.date(year, month, 1).weekday()
+        firstweekDay = datetime.date(year, month, 1).weekday() + 1
+        
+        #print(day,month,col,firstweekDay)
 
         
         #print(day,month,col)
          # Calculate the difference between the current date and the first day of the month
         #first_day_of_month = datetime(year, month, 1)
         #diff = d["日期"] - first_day_of_month
-     
+        
+        #如果星期日，放在第一列
+        if col == 7:
+            col = 0
+            #print("放在第一列")
+            
+            
+            
+
+        #通常而言行数为日期除星期取整
         row_idx = day // 7 
         
+        #如果正好是第7天，意味着row_idx会被加1，但是
         if day % 7 == 0:
             row_idx -= 1
         
-        if col < firstweekDay:
+        if col < firstweekDay and firstweekDay != 7:
             row_idx += 1
         
 
@@ -86,6 +102,18 @@ def create_year_calendar(day_nums, day_vals,the_plot_title,saved_path,color_map,
 
         # Labels
         axs.set_xticks(np.arange(len(days)))
+        
+        # 定义需要特殊样式的日标签
+        special_days = ["日", "六"]
+        xtick_labels = []
+        
+        special_colors = {"日": "#096402", "六": "#096402"}
+
+        for d, day in enumerate(days):
+            color = special_colors.get(day, "#555555")  # 获取对应颜色，默认为灰色
+            axs.text(d, -0.7, day, fontsize=10, fontweight="bold", color=color, ha="center")
+        
+        
         axs.set_xticklabels(days, fontsize=10, fontweight='bold', color='#555555')
         axs.set_yticklabels([])
 
@@ -156,18 +184,18 @@ def create_year_calendar(day_nums, day_vals,the_plot_title,saved_path,color_map,
     #print(f'{saved_path}/{the_plot_title}.pdf')
 def generateCalendarMain(selected_years,acquired_filepath,saved_path,group_name,title=""):
     try:
-        mpl.rcParams['font.family'] = 'SimHei'
+        mpl.rcParams['font.family'] = 'SimHei'#支持中文但是不支持表情符号
 
         # Settings
         
         weeks = [1, 2, 3, 4, 5, 6]
-        days = ['一', '二', '三', '四', '五', '六', '日']
+        days = [ '日','一', '二', '三', '四', '五', '六']
         month_names = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
 
         #颜色映射
         # 定义颜色映射的颜色段
         #colors = ['#61bfb4', '#0e3560', '#2e1054', '#e82f0f']  # 
-        #n_bins = [6, 6, 6, 17]  # 每个颜色段的区间数
+        #n_bins = [6, 6, 6, 19]  # 每个颜色段的区间数
 
         colors = ['#61bfb4', '#0e3560', '#2e1054']  # 
         n_bins = [6, 6, 6]  # 每个颜色段的区间数
@@ -184,6 +212,8 @@ def generateCalendarMain(selected_years,acquired_filepath,saved_path,group_name,
             #print(df[df['日期'].dt.year == int(year.strip())]['日期'])
             earliest_date = df[df['日期'].dt.year == year]['日期'].min()
             #print(earliest_date)
+            if earliest_date is None:
+                raise Exception("所选择的年份没有数据")
             starts_date = earliest_date.strftime('%Y年%m月%d日')
             
             day_nums, day_vals = split_months(df, year)
