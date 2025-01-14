@@ -46,8 +46,9 @@ def split_months(df, year):
         day = d["日期"].day
         month = d["日期"].month
         col = d["日期"].dayofweek
-        
-        firstweekDay = datetime.date(2024, month, 1).weekday()
+
+        #获取这个月的第一天是星期几，以判断渲染时是否放置在下一行
+        firstweekDay = datetime.date(year, month, 1).weekday()
 
         
         #print(day,month,col)
