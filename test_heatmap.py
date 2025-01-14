@@ -177,7 +177,8 @@ def generateCalendarMain(selected_years,acquired_filepath,saved_path,group_name,
         for year in selected_years:
             df,maxvalue = generate_data(acquired_filepath)
             #print(acquired_filepath,"\n",int(year.strip()))
-            
+            if df.empty:
+                raise Exception("所选择的年份得到的结果为空")
             # 获取指定年份最早的日期
             #print(df[df['日期'].dt.year == int(year.strip())]['日期'])
             earliest_date = df[df['日期'].dt.year == year]['日期'].min()
