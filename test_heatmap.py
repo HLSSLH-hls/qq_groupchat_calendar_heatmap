@@ -111,10 +111,11 @@ def create_year_calendar(day_nums, day_vals,the_plot_title,saved_path,color_map,
 
         for d, day in enumerate(days):
             color = special_colors.get(day, "#555555")  # 获取对应颜色，默认为灰色
-            axs.text(d, -0.7, day, fontsize=10, fontweight="bold", color=color, ha="center")
+            axs.text(d, -0.72, day, fontsize=10, fontweight="bold", color=color,ha="center")
         
         
-        axs.set_xticklabels(days, fontsize=10, fontweight='bold', color='#555555')
+        #axs.set_xticklabels(day, fontsize=10, fontweight='bold', color='#555555')
+        axs.set_xticklabels([" "," "," "," "," "," "," "])
         axs.set_yticklabels([])
 
         # Tick marks
